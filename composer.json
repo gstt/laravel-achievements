@@ -9,9 +9,8 @@
         }
     ],
     "autoload": {
-        "psr-4": {
-            "App\\": "app/",
-            "Gstt\\Achievements\\": "packages/gstt/laravel-achievements/src"
+        "psr-0": {
+            "Gstt\\Achievements\\": "src/"
         }
     },
     "require": {}
