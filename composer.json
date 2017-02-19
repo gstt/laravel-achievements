@@ -9,7 +9,10 @@
         }
     ],
     "autoload": {
-        "psr-0": {
+        "classmap": [
+            "src/Migrations"
+        ],
+        "psr-4": {
             "Gstt\\Achievements\\": "src/"
         }
     },
