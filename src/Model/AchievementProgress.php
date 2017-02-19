@@ -86,7 +86,7 @@ class AchievementProgress extends Model
      * @param  array  $options
      * @return bool
      */
-    public function save(array $options = array())
+    public function save(array $options = [])
     {
         $recently_unlocked = false;
         if (is_null($this->unlockedAt) && $this->isUnlocked()) {

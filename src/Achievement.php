@@ -5,7 +5,6 @@ namespace Gstt\Achievements;
 use Gstt\Achievements\Model\AchievementDetails;
 use Gstt\Achievements\Model\AchievementProgress;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 
 abstract class Achievement
 {
@@ -53,7 +52,7 @@ abstract class Achievement
      */
     public function getClassName()
     {
-        return self::class;
+        return static::class;
     }
 
     /**
@@ -63,10 +62,10 @@ abstract class Achievement
      */
     public function getModel()
     {
-        $model = AchievementDetails::where('class_name', self::class)->first();
+        $model = AchievementDetails::where('class_name', $this->getClassName())->first();
         if (is_null($model)) {
             $model = new AchievementDetails();
-            $model->class_name = self::class;
+            $model->class_name = $this->getClassName();
         }
 
         // Updates the model with data from the achievement class
@@ -115,14 +114,14 @@ abstract class Achievement
      */
     public function getOrCreateProgressForAchiever($achiever)
     {
-        $className = self::class;
+        $this->getClassName();
 
         $progress = $achiever->achievements()->whereHas(
             'details',
             function (Builder $query) use ($className) {
                 $query->where('class_name', $className);
             }
-        );
+        )->first();
 
         if (is_null($progress)) {
             $progress = new AchievementProgress();
