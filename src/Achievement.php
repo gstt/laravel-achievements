@@ -93,8 +93,10 @@ abstract class Achievement
     public function addProgressToAchiever($achiever, $points)
     {
         $progress = $this->getOrCreateProgressForAchiever($achiever);
-        $progress->points = $progress->points + $points;
-        $progress->save();
+        if(!$progress->isUnlocked()) {
+            $progress->points = $progress->points + $points;
+            $progress->save();
+        }
     }
 
     /**
