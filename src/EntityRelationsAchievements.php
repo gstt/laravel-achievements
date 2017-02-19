@@ -25,13 +25,23 @@ trait EntityRelationsAchievements
     }
 
     /**
+     * Retrieves the status for the specified achievement
+     * @param Achievement $achievement
+     * @return $this
+     */
+    public function achievementStatus(Achievement $achievement)
+    {
+        return $this->achievements()->where('achievement_id', $achievement->getModel()->id);
+    }
+
+    /**
      * Get the entity's achievements in progress.
      *
      * @return Builder
      */
     public function inProgressAchievements()
     {
-        return $this->achievements()->whereNull('unlocked_at');
+        return $this->achievements()->whereNull('unlocked_at')->get();
     }
 
     /**
@@ -41,6 +51,6 @@ trait EntityRelationsAchievements
      */
     public function unlockedAchievements()
     {
-        return $this->achievements()->whereNotNull('unlocked_at');
+        return $this->achievements()->whereNotNull('unlocked_at')->get();
     }
 }

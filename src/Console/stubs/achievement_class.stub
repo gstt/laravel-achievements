@@ -6,7 +6,6 @@ use Gstt\Achievements\Achievement;
 
 class DummyClass extends Achievement
 {
-
     /*
      * The achievement name
      */

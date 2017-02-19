@@ -2,9 +2,10 @@
 
 namespace Gstt\Achievements;
 
-use Gstt\Achievements\Model\AchievementModel;
+use Gstt\Achievements\Model\AchievementDetails;
 use Gstt\Achievements\Model\AchievementProgress;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 abstract class Achievement
 {
@@ -31,16 +32,40 @@ abstract class Achievement
      */
     public $points = 1;
 
+    /*
+     * Whether this is a secret achievment or not.
+     */
+    public $secret = false;
+
     /**
-     * Gets the model class for this achievement.
+     * Achievement constructor.
+     * Should add the achievement to the database.
+     */
+    public function __construct()
+    {
+        $this->getModel();
+    }
+
+    /**
+     * Gets the full class name.
      *
-     * @return AchievementModel
+     * @return string
+     */
+    public function getClassName()
+    {
+        return self::class;
+    }
+
+    /**
+     * Gets the details class for this achievement.
+     *
+     * @return AchievementDetails
      */
     public function getModel()
     {
-        $model = AchievementModel::where('class_name', self::class)->get();
+        $model = AchievementDetails::where('class_name', self::class)->get();
         if (is_null($model)) {
-            $model = new AchievementModel();
+            $model = new AchievementDetails();
             $model->class_name = self::class;
         }
 
@@ -48,35 +73,12 @@ abstract class Achievement
         $model->name        = $this->name;
         $model->description = $this->description;
         $model->points      = $this->points;
+        $model->secret      = $this->secret;
 
         // Saves
         $model->save();
 
         return $model;
-    }
-
-    /**
-     * Statically call addProgressToAchiever.
-     *
-     * @param mixed $achiever The entity that will add progress to this achievement
-     * @param int   $points   The amount of points to be added to this achievement
-     */
-    public static function addProgress($achiever, $points)
-    {
-        $instance = new (self::class)();
-        $instance->addProgressToAchiever($achiever, $points);
-    }
-
-    /**
-     * Statically call setProgressToAchiever.
-     *
-     * @param mixed $achiever The entity that will add progress to this achievement
-     * @param int   $points   The amount of points to be added to this achievement
-     */
-    public static function setProgress($achiever, $points)
-    {
-        $instance = new (self::class)();
-        $instance->addProgressToAchiever($achiever, $points);
     }
 
     /**
@@ -114,12 +116,14 @@ abstract class Achievement
     public function getOrCreateProgressForAchiever($achiever)
     {
         $className = self::class;
-        $progress = $achiever->achievements()->with(
+
+        $progress = $achiever->achievements()->whereHas(
             'details',
             function (Builder $query) use ($className) {
                 $query->where('class_name', $className);
             }
         );
+
         if (is_null($progress)) {
             $progress = new AchievementProgress();
             $progress->details()->associate($this->getModel());

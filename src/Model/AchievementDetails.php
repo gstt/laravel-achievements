@@ -5,7 +5,7 @@ namespace Gstt\Achievements\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Model for the table that will store the data regarding achievements.
+ * Model for the table that will store the details for an Achievement Progress.
  *
  * @category Model
  * @package  Gstt\Achievements\Model
@@ -13,9 +13,12 @@ use Illuminate\Database\Eloquent\Model;
  * @license  MIT License
  * @link     https://github.com/gstt/laravel-achievements
  */
-class AchievementModel extends Model
+class AchievementDetails extends Model
 {
 
+    public $points = 1;
+
+    public $secret = false;
     /**
      * Return all users that have made progress on this achievement.
      *

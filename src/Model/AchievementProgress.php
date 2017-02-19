@@ -61,7 +61,7 @@ class AchievementProgress extends Model
      */
     public function details()
     {
-        return $this->belongsto('Gstt\Achievements\Model\AchievementModel', 'achievement_id');
+        return $this->belongsto('Gstt\Achievements\Model\AchievementDetails', 'achievement_id');
     }
 
     /**
