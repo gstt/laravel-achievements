@@ -8,6 +8,7 @@
 
 namespace Gstt\Achievements;
 
+use Gstt\Achievements\Model\AchievementDetails;
 use Gstt\Achievements\Model\AchievementProgress;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -27,11 +28,11 @@ trait EntityRelationsAchievements
     /**
      * Retrieves the status for the specified achievement
      * @param Achievement $achievement
-     * @return $this
+     * @return AchievementProgress
      */
     public function achievementStatus(Achievement $achievement)
     {
-        return $this->achievements()->where('achievement_id', $achievement->getModel()->id);
+        return $this->achievements()->where('achievement_id', $achievement->getModel()->id)->first();
     }
 
     /**

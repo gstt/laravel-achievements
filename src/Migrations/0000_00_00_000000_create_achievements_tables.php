@@ -13,7 +13,7 @@ class CreateAchievementsTables extends Migration
      */
     public function up()
     {
-        Schema::create('achievements', function (Blueprint $table) {
+        Schema::create('achievement_details', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('description');
@@ -30,7 +30,7 @@ class CreateAchievementsTables extends Migration
             $table->timestamp('unlocked_at')->nullable()->default(null);
             $table->timestamps();
 
-            $table->foreign('achievement_id')->references('id')->on('achievements');
+            $table->foreign('achievement_id')->references('id')->on('achievement_details');
         });
     }
 
@@ -42,6 +42,6 @@ class CreateAchievementsTables extends Migration
     public function down()
     {
         Schema::dropIfExists('achievement_progress');
-        Schema::dropIfExists('achievements');
+        Schema::dropIfExists('achievement_details');
     }
 }

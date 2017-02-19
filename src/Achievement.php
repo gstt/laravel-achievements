@@ -63,7 +63,7 @@ abstract class Achievement
      */
     public function getModel()
     {
-        $model = AchievementDetails::where('class_name', self::class)->get();
+        $model = AchievementDetails::where('class_name', self::class)->first();
         if (is_null($model)) {
             $model = new AchievementDetails();
             $model->class_name = self::class;

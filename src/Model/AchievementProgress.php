@@ -83,11 +83,10 @@ class AchievementProgress extends Model
     /**
      * Overloads save method.
      *
-     * @param array $options Options to be passed to the parent class save method.
-     *
+     * @param  array  $options
      * @return bool
      */
-    public function save($options = [])
+    public function save(array $options = array())
     {
         $recently_unlocked = false;
         if (is_null($this->unlockedAt) && $this->isUnlocked()) {
