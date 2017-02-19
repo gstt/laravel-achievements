@@ -1,0 +1,19 @@
+<?php
+
+namespace DummyNamespace;
+
+use Gstt\Achievements\Achievement;
+
+class DummyClass extends Achievement
+{
+
+    /*
+     * The achievement name
+     */
+    public $name = "DummyClass";
+
+    /*
+     * A small description for the achievement
+     */
+    public $description = "";
+}

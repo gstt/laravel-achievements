@@ -1,0 +1,18 @@
+{
+    "name": "gstt/laravel-achievements",
+    "description": "Achievements for Laravel 5.3+",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gabriel Simonetti",
+            "email": "simonettigo@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Gstt\\Achievements\\": "packages/gstt/laravel-achievements/src"
+        }
+    },
+    "require": {}
+}
