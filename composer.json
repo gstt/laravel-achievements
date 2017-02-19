@@ -12,7 +12,7 @@
         "classmap": [
             "src/Migrations"
         ],
-        "psr-4": {
+        "psr-0": {
             "Gstt\\Achievements\\": "src/"
         }
     },

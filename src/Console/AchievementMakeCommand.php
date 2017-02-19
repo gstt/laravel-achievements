@@ -1,6 +1,6 @@
 <?php
 
-namespace Gstt\Achievements\Command;
+namespace Gstt\Achievements\Console;
 
 use Illuminate\Console\GeneratorCommand;
 

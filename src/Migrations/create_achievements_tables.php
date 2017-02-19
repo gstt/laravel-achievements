@@ -1,12 +1,10 @@
 <?php
 
-namespace Gstt\Achievements\Migrations;
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAchievementsTable extends Migration
+class CreateAchievementsTables extends Migration
 {
     /**
      * Run the migrations.
