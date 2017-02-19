@@ -55,6 +55,10 @@ abstract class Achievement
         return static::class;
     }
 
+    public function getPoints(){
+        return $this->points;
+    }
+
     /**
      * Gets the details class for this achievement.
      *
@@ -102,8 +106,11 @@ abstract class Achievement
     public function setProgressToAchiever($achiever, $points)
     {
         $progress = $this->getOrCreateProgressForAchiever($achiever);
-        $progress->points = $points;
-        $progress->save();
+
+        if(!$progress->isUnlocked()){
+            $progress->points = $points;
+            $progress->save();
+        }
     }
 
     /**
@@ -114,14 +121,11 @@ abstract class Achievement
      */
     public function getOrCreateProgressForAchiever($achiever)
     {
-        $this->getClassName();
-
-        $progress = $achiever->achievements()->whereHas(
-            'details',
-            function (Builder $query) use ($className) {
-                $query->where('class_name', $className);
-            }
-        )->first();
+        $className = get_class($achiever);
+        $achievementId = $this->getModel()->id;
+        $progress = AchievementProgress::where('achiever_type', $className)
+                                       ->where('achievement_id', $achievementId)
+                                       ->first();
 
         if (is_null($progress)) {
             $progress = new AchievementProgress();

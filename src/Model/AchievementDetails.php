@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Model;
 class AchievementDetails extends Model
 {
 
-    public $points = 1;
-
     public $secret = false;
     /**
      * Return all users that have made progress on this achievement.

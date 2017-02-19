@@ -16,5 +16,7 @@
             "Gstt\\Achievements\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "ramsey/uuid": "^3.5"
+    }
 }

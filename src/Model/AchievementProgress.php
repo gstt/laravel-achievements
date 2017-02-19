@@ -4,6 +4,7 @@ namespace Gstt\Achievements\Model;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Model for the table that will store the data regarding achievement progress and unlocks.
@@ -81,6 +82,16 @@ class AchievementProgress extends Model
     }
 
     /**
+     * Checks if the achievement is locked.
+     *
+     * @return bool
+     */
+    public function isLocked()
+    {
+        return !$this->isUnlocked();
+    }
+
+    /**
      * Overloads save method.
      *
      * @param  array  $options
@@ -88,6 +99,9 @@ class AchievementProgress extends Model
      */
     public function save(array $options = [])
     {
+        if (is_null($this->id)) {
+            $this->id = Uuid::uuid4()->toString();
+        }
         $recently_unlocked = false;
         if (is_null($this->unlockedAt) && $this->isUnlocked()) {
             $recently_unlocked = true;
