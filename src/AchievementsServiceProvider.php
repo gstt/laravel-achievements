@@ -2,7 +2,7 @@
 
 namespace Gstt\Achievements;
 
-use Gstt\Achievements\Command\AchievementMakeCommand;
+use Gstt\Achievements\Console\AchievementMakeCommand;
 use Illuminate\Support\ServiceProvider;
 
 class AchievementsServiceProvider extends ServiceProvider
