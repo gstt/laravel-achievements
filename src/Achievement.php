@@ -127,6 +127,7 @@ abstract class Achievement
         $achievementId = $this->getModel()->id;
         $progress = AchievementProgress::where('achiever_type', $className)
                                        ->where('achievement_id', $achievementId)
+                                       ->where('achiever_id', $achiever->id)
                                        ->first();
 
         if (is_null($progress)) {
