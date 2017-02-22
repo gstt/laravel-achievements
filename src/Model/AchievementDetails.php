@@ -2,6 +2,7 @@
 
 namespace Gstt\Achievements\Model;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -30,7 +31,7 @@ class AchievementDetails extends Model
     /**
      * Return the progress data for achievers that have unlocked this achievement.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return Collection
      */
     public function unlocks()
     {
