@@ -147,5 +147,6 @@ abstract class Achievement
      */
     public function whenUnlocked($progress)
     {
+        
     }
 }

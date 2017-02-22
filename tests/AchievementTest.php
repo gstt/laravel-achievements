@@ -26,6 +26,9 @@ class AchievementTest extends DBTestCase
         $this->tenPosts = new TenPosts();
     }
 
+    /**
+     * Tests the setup
+     */
     public function testSetup(){
 
         // For users, check only names.
@@ -62,6 +65,9 @@ class AchievementTest extends DBTestCase
         $this->assertEquals($tenPostsDB->getClass()->getClassName(), $this->tenPosts->getClassName());
     }
 
+    /**
+     * Tests unlocking achievements.
+     */
     public function testUnlock(){
 
         // First user: unlocks both achievements.
@@ -77,7 +83,7 @@ class AchievementTest extends DBTestCase
         $onePostModel  = $this->onePost->getModel();
         $tenPostsModel = $this->tenPosts->getModel();
 
-        // Assertions via checking the database:
+        // Assertions via checking the database
         $this->assertEquals($onePostModel->unlocks()->count(), 2);
         $this->assertEquals($tenPostsModel->unlocks()->count(), 2);
 
@@ -104,6 +110,9 @@ class AchievementTest extends DBTestCase
         $this->assertFalse($this->users[4]->hasUnlocked($this->tenPosts));
     }
 
+    /**
+     * Test adding/removing/progressing on achievements.
+     */
     public function testProgress(){
         $this->users[1]->addProgress($this->tenPosts, 10);
         $this->users[3]->addProgress($this->tenPosts, 9);
@@ -152,5 +161,38 @@ class AchievementTest extends DBTestCase
         $this->assertEquals(10, $this->users[1]->achievementStatus($this->tenPosts)->points);
         $this->assertEquals(10, $this->users[3]->achievementStatus($this->tenPosts)->points);
         $this->assertEquals(0, $this->users[4]->achievementStatus($this->tenPosts)->points);
+    }
+
+    /**
+     * Tests all relationship methods on Achiever trait.
+     */
+    public function testRelations()
+    {
+
+        // Setup
+        $this->users[0]->unlock($this->onePost);
+        $this->users[0]->unlock($this->tenPosts);
+
+        $this->users[1]->unlock($this->onePost);
+        $this->users[1]->setProgress($this->tenPosts, 4);
+
+        $this->users[2]->unlock($this->onePost);
+
+        $this->users[3]->setProgress($this->tenPosts, 5);
+
+        $this->assertEquals(2, $this->users[0]->achievements->count());
+        $this->assertEquals(2, $this->users[1]->achievements->count());
+        $this->assertEquals(1, $this->users[2]->achievements->count());
+        $this->assertEquals(1, $this->users[3]->achievements->count());
+
+        $this->assertEquals(2, $this->users[0]->unlockedAchievements()->count());
+        $this->assertEquals(1, $this->users[1]->unlockedAchievements()->count());
+        $this->assertEquals(1, $this->users[2]->unlockedAchievements()->count());
+        $this->assertEquals(0, $this->users[3]->unlockedAchievements()->count());
+
+        $this->assertEquals(0, $this->users[0]->inProgressAchievements()->count());
+        $this->assertEquals(1, $this->users[1]->inProgressAchievements()->count());
+        $this->assertEquals(0, $this->users[2]->inProgressAchievements()->count());
+        $this->assertEquals(1, $this->users[3]->inProgressAchievements()->count());
     }
 }
