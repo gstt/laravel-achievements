@@ -1,4 +1,11 @@
-# Laravel Achievements
+<h1 align="center">Laravel Achievements</h1>
+
+<p align="center">
+<a href="https://travis-ci.org/gstt/laravel-achievments"><img src="https://travis-ci.org/gstt/laravel-achievements.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/gstt/laravel-achievments"><img src="https://poser.pugx.org/gstt/laravel-achievements/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/gstt/laravel-achievments"><img src="https://poser.pugx.org/gstt/laravel-achievements/license.svg" alt="License"></a>
+</p>
+
 An implementation of an Achievement System in Laravel, inspired by Laravel's Notification system. 
 
 ## Table of Contents
@@ -10,11 +17,13 @@ An implementation of an Achievement System in Laravel, inspired by Laravel's Not
 6. [Retrieving Achievements](#retrieving)
 7. [License](#license)
 
-## Requirements <a name="requirements"></a>
+
+## <a name="requirements"></a> Requirements
 
 - Laravel 5.3 or higher
+- PHP 5.6 or higher
 
-## Installation <a name="installation"></a>
+## <a name="installation"></a> Installation 
 
 Default installation is via [Composer](https://getcomposer.org/).
 
@@ -36,7 +45,7 @@ Backup your database and run the migrations in order to setup the required table
 php artisan migrate
 ```
 
-## Creating Achievements <a name="creating"></a>
+## <a name="creating"></a> Creating Achievements 
 Similar to Laravel's implementation of [Notifications](https://laravel.com/docs/5.4/notifications), each Achievement is 
 represented by a single class (typically stored in the `app\Achievements` directory.) This directory will be created 
 automatically for you when you run the `make:achievement` command.
@@ -70,7 +79,7 @@ class UserMadeAPost extends Achievement
 ```
 
 ## Unlocking Achievements <a name="unlocking"></a>
-Achievements can be unlocked by using the `Achiever` trait. Let's explore the usage:
+Achievements can be unlocked by using the `Achiever` trait.
 
 ```php
 <?php
