@@ -36,6 +36,20 @@ trait EntityRelationsAchievements
     }
 
     /**
+     * Return true if the user has unlocked this achievement, false otherwise.
+     * @param  Achievement $achievement
+     * @return bool
+     */
+    public function hasUnlocked(Achievement $achievement)
+    {
+        $status = $this->achievementStatus($achievement);
+        if(is_null($status) || is_null($status->unlocked_at)){
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Get the entity's achievements in progress.
      *
      * @return Builder
