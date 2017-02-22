@@ -1,9 +1,9 @@
 <h1 align="center">Laravel Achievements</h1>
 
 <p align="center">
-<a href="https://travis-ci.org/gstt/laravel-achievments"><img src="https://travis-ci.org/gstt/laravel-achievements.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/gstt/laravel-achievments"><img src="https://poser.pugx.org/gstt/laravel-achievements/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/gstt/laravel-achievments"><img src="https://poser.pugx.org/gstt/laravel-achievements/license.svg" alt="License"></a>
+<a href="https://travis-ci.org/gstt/laravel-achievements"><img src="https://travis-ci.org/gstt/laravel-achievements.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/gstt/laravel-achievements"><img src="https://poser.pugx.org/gstt/laravel-achievements/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/gstt/laravel-achievements"><img src="https://poser.pugx.org/gstt/laravel-achievements/license.svg" alt="License"></a>
 </p>
 
 An implementation of an Achievement System in Laravel, inspired by Laravel's Notification system. 
