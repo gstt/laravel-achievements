@@ -188,12 +188,58 @@ There are also two additional helpers on the `Achiever` trait: `inProgressAchiev
 
 ## <a name="listening"></a> Event Listeners
 
+### Listening to all Achievements
 Laravel Achievements provides two events that can be listened to in order to provide "Achievement Unlocked" messages or similar. Both events receive the instance of `AchievementProgress` that triggered them. 
 
 The `Gstt\Achievements\Event\Progress` event triggers whenever an Achiever makes progress, but doesn't unlock an Achievement. The `Gstt\Achievements\Event\Unlocked` event triggers whenever an Achiever actually unlocks an achievement.
  
 Details on how to listen to those events are explained on [Laravel's Event documentation](https://laravel.com/docs/5.3/events).
 
+### Listening to specific Achievements
+
+The event listeners mentioned above triggers for all Achievements. If you would like to add an event listener for only a specific Achievement, you can do so by implementing the methods `whenUnlocked` or `whenProgress` on the `Achievement` class.
+
+```php
+<?php
+
+namespace App\Achievements;
+
+use Gstt\Achievements\Achievement;
+
+class UserMade50Posts extends Achievement
+{
+    /*
+     * The achievement name
+     */
+    public $name = "50 Posts Created";
+
+    /*
+     * A small description for the achievement
+     */
+    public $description = "Wow! You have already created 50 posts!";
+    
+    /*
+     * The amount of "points" this user need to obtain in order to complete this achievement
+     */
+    public $points = 50;
+    
+    /*
+     * Triggers whenever an Achiever makes progress on this achievement
+    */
+    public function whenProgress($progress)
+    {
+        
+    }
+    
+    /*
+     * Triggers whenever an Achiever unlockes this achievement
+    */
+    public function whenUnlocked($progress)
+    {
+        
+    }
+}
+```
 ## <a name="license"></a> License 
 
 Laravel Achievements is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
