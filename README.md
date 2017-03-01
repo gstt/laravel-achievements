@@ -232,7 +232,7 @@ class UserMade50Posts extends Achievement
     }
     
     /*
-     * Triggers whenever an Achiever unlockes this achievement
+     * Triggers whenever an Achiever unlocks this achievement
     */
     public function whenUnlocked($progress)
     {
