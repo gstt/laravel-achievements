@@ -2,6 +2,8 @@
 
 namespace Gstt\Achievements;
 
+use Gstt\Achievements\Event\Unlocked as UnlockedEvent;
+use Gstt\Achievements\Event\Progress as ProgressEvent;
 use Gstt\Achievements\Model\AchievementDetails;
 use Gstt\Achievements\Model\AchievementProgress;
 use Illuminate\Database\Eloquent\Builder;
@@ -55,7 +57,13 @@ abstract class Achievement
         return static::class;
     }
 
-    public function getPoints(){
+    /**
+     * Gets the amount of points needed to unlock the achievement.
+     *
+     * @return int
+     */
+    public function getPoints()
+    {
         return $this->points;
     }
 
@@ -90,10 +98,10 @@ abstract class Achievement
      * @param mixed $achiever The entity that will add progress to this achievement
      * @param int   $points   The amount of points to be added to this achievement
      */
-    public function addProgressToAchiever($achiever, $points)
+    public function addProgressToAchiever($achiever, $points = 1)
     {
         $progress = $this->getOrCreateProgressForAchiever($achiever);
-        if(!$progress->isUnlocked()) {
+        if (!$progress->isUnlocked()) {
             $progress->points = $progress->points + $points;
             $progress->save();
         }
@@ -109,7 +117,7 @@ abstract class Achievement
     {
         $progress = $this->getOrCreateProgressForAchiever($achiever);
 
-        if(!$progress->isUnlocked()){
+        if (!$progress->isUnlocked()) {
             $progress->points = $points;
             $progress->save();
         }
@@ -143,10 +151,41 @@ abstract class Achievement
 
     /**
      * Will be called when the achievement is unlocked.
+     *
      * @param $progress
      */
     public function whenUnlocked($progress)
     {
+    }
 
+    /**
+     * Will be called when progress is made on the achievement.
+     *
+     * @param $progress
+     */
+    public function whenProgress($progress)
+    {
+    }
+
+    /**
+     * Triggers the AchievementUnlocked Event.
+     *
+     * @param $progress
+     */
+    public function triggerUnlocked($progress)
+    {
+        event(new UnlockedEvent($progress));
+        $this->whenUnlocked($progress);
+    }
+
+    /**
+     * Triggers the AchievementProgress Event.
+     *
+     * @param $progress
+     */
+    public function triggerProgress($progress)
+    {
+        event(new ProgressEvent($progress));
+        $this->whenProgress($progress);
     }
 }
