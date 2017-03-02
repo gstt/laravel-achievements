@@ -184,7 +184,7 @@ You can also search for a specific achievement using the `achievementStatus()` m
 $details = $user->achievementStatus(new UserMade10Posts());
 ```
 
-There are also two additional helpers on the `Achiever` trait: `inProgressAchievements()` and `unlockedAchievements()`.
+There are also three additional helpers on the `Achiever` trait: `lockedAchievements()`, `inProgressAchievements()` and `unlockedAchievements()`.
 
 ## <a name="listening"></a> Event Listeners
 
