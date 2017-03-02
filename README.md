@@ -15,7 +15,8 @@ An implementation of an Achievement System in Laravel, inspired by Laravel's Not
 4. [Unlocking Achievements](#unlocking)
 5. [Adding Progress](#progress)
 6. [Retrieving Achievements](#retrieving)
-7. [License](#license)
+7. [Event Listeners](#listening)
+8. [License](#license)
 
 
 ## <a name="requirements"></a> Requirements
@@ -78,7 +79,7 @@ class UserMadeAPost extends Achievement
 }
 ```
 
-## Unlocking Achievements <a name="unlocking"></a>
+## <a name="unlocking"></a> Unlocking Achievements 
 Achievements can be unlocked by using the `Achiever` trait.
 
 ```php
@@ -105,7 +106,7 @@ $user->unlock(new UserMadeAPost());
 Remember that you're not restricted to the `User` class. You may add the `Achiever` trait to any entity that could
 unlock Achievements.
 
-## Adding Progress
+## <a name="progress"></a> Adding Progress
 
 Instead of directly unlocking an achievement, you can add a progress to it. For example, you may have an achievement 
 `UserMade10Posts` and you want to keep track of how the user is progressing on this Achievement.
@@ -167,7 +168,7 @@ $user->setProgress(new Have100GoldOnTheBag(), $user->amountOfGoldOnTheBag);
 
 Once an Achievement reach the defined amount of points, it will be automatically unlocked.
 
-## Retrieving Achievements <a name="retrieving"></a>
+## <a name="retrieving"></a> Retrieving Achievements
 The `Achiever` trait also adds a convenient relationship to the entity implementing it: `achievements()`. You can use it
 to retrieve progress for all achievements the entity has interacted with. Since `achievements()` is a relationship, you
 can use it as a QueryBuilder to filter data even further.
@@ -185,6 +186,60 @@ $details = $user->achievementStatus(new UserMade10Posts());
 
 There are also two additional helpers on the `Achiever` trait: `inProgressAchievements()` and `unlockedAchievements()`.
 
-## License <a name="license"></a>
+## <a name="listening"></a> Event Listeners
+
+### Listening to all Achievements
+Laravel Achievements provides two events that can be listened to in order to provide "Achievement Unlocked" messages or similar. Both events receive the instance of `AchievementProgress` that triggered them. 
+
+The `Gstt\Achievements\Event\Progress` event triggers whenever an Achiever makes progress, but doesn't unlock an Achievement. The `Gstt\Achievements\Event\Unlocked` event triggers whenever an Achiever actually unlocks an achievement.
+ 
+Details on how to listen to those events are explained on [Laravel's Event documentation](https://laravel.com/docs/5.3/events).
+
+### Listening to specific Achievements
+
+The event listeners mentioned above triggers for all Achievements. If you would like to add an event listener for only a specific Achievement, you can do so by implementing the methods `whenUnlocked` or `whenProgress` on the `Achievement` class.
+
+```php
+<?php
+
+namespace App\Achievements;
+
+use Gstt\Achievements\Achievement;
+
+class UserMade50Posts extends Achievement
+{
+    /*
+     * The achievement name
+     */
+    public $name = "50 Posts Created";
+
+    /*
+     * A small description for the achievement
+     */
+    public $description = "Wow! You have already created 50 posts!";
+    
+    /*
+     * The amount of "points" this user need to obtain in order to complete this achievement
+     */
+    public $points = 50;
+    
+    /*
+     * Triggers whenever an Achiever makes progress on this achievement
+    */
+    public function whenProgress($progress)
+    {
+        
+    }
+    
+    /*
+     * Triggers whenever an Achiever unlocks this achievement
+    */
+    public function whenUnlocked($progress)
+    {
+        
+    }
+}
+```
+## <a name="license"></a> License 
 
 Laravel Achievements is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).

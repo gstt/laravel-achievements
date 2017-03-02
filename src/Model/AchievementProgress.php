@@ -111,12 +111,15 @@ class AchievementProgress extends Model
 
         $result = parent::save($options);
 
-        if ($recently_unlocked) {
-            // Gets the achievement class for this progress
-            $class = $this->details->getClass();
+        // Gets the achievement class for this progress
+        $class = $this->details->getClass();
 
+        if ($recently_unlocked) {
             // Runs the callback set to run when the achievement is unlocked.
-            $class->whenUnlocked($this);
+            $class->triggerUnlocked($this);
+        } elseif ($this->points >= 0) {
+            // Runs the callback set to run when progress has been made on the achievement.
+            $class->triggerProgress($this);
         }
 
         return $result;
