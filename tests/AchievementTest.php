@@ -26,6 +26,28 @@ class AchievementTest extends DBTestCase
         $this->tenPosts = new TenPosts();
     }
 
+
+    public function testUnlocked()
+    {
+        /* Testing for sync disabled */
+        $this->app['config']->set('achievements.locked_sync', false);
+        $this->assertEquals(0, $this->users[0]->achievements->count());
+        $unlocked = AchievementDetails::getUnsyncedByAchiever($this->users[0])->get();
+        $this->assertEquals(2, $unlocked->count());
+
+        $this->users[0]->unlock($this->onePost);
+        $this->users[0] = $this->users[0]->fresh();
+
+        $unlocked = AchievementDetails::getUnsyncedByAchiever($this->users[0])->get();
+        $this->assertEquals(1, $unlocked->count());
+
+        /* Testing for sync enabled */
+        $this->assertEquals(0, $this->users[1]->achievements->count());
+        $this->app['config']->set('achievements.locked_sync', true);
+        $this->users[1] = $this->users[1]->fresh();
+        $this->assertEquals(2, $this->users[1]->achievements->count());
+    }
+
     /**
      * Tests the setup
      */
@@ -166,10 +188,10 @@ class AchievementTest extends DBTestCase
     /**
      * Tests all relationship methods on Achiever trait.
      */
-    public function testRelations()
+    public function testRelationsLockedUnsynced()
     {
-
         // Setup
+        $this->app['config']->set('achievements.locked_sync', false);
         $this->users[0]->unlock($this->onePost);
         $this->users[0]->unlock($this->tenPosts);
 
@@ -180,10 +202,63 @@ class AchievementTest extends DBTestCase
 
         $this->users[3]->setProgress($this->tenPosts, 5);
 
+        $this->users[0] = $this->users[0]->fresh();
+        $this->users[1] = $this->users[1]->fresh();
+        $this->users[2] = $this->users[2]->fresh();
+        $this->users[3] = $this->users[3]->fresh();
+
         $this->assertEquals(2, $this->users[0]->achievements->count());
         $this->assertEquals(2, $this->users[1]->achievements->count());
         $this->assertEquals(1, $this->users[2]->achievements->count());
         $this->assertEquals(1, $this->users[3]->achievements->count());
+
+        $this->assertEquals(0, $this->users[0]->lockedAchievements()->count());
+        $this->assertEquals(1, $this->users[1]->lockedAchievements()->count());
+        $this->assertEquals(1, $this->users[2]->lockedAchievements()->count());
+        $this->assertEquals(2, $this->users[3]->lockedAchievements()->count());
+
+        $this->assertEquals(2, $this->users[0]->unlockedAchievements()->count());
+        $this->assertEquals(1, $this->users[1]->unlockedAchievements()->count());
+        $this->assertEquals(1, $this->users[2]->unlockedAchievements()->count());
+        $this->assertEquals(0, $this->users[3]->unlockedAchievements()->count());
+
+        $this->assertEquals(0, $this->users[0]->inProgressAchievements()->count());
+        $this->assertEquals(1, $this->users[1]->inProgressAchievements()->count());
+        $this->assertEquals(0, $this->users[2]->inProgressAchievements()->count());
+        $this->assertEquals(1, $this->users[3]->inProgressAchievements()->count());
+    }
+
+    /**
+     * Tests all relationship methods on Achiever trait.
+     */
+    public function testRelationsLockedSynced()
+    {
+        // Setup
+        $this->app['config']->set('achievements.locked_sync', true);
+        $this->users[0]->unlock($this->onePost);
+        $this->users[0]->unlock($this->tenPosts);
+
+        $this->users[1]->unlock($this->onePost);
+        $this->users[1]->setProgress($this->tenPosts, 4);
+
+        $this->users[2]->unlock($this->onePost);
+
+        $this->users[3]->setProgress($this->tenPosts, 5);
+
+        $this->users[0] = $this->users[0]->fresh();
+        $this->users[1] = $this->users[1]->fresh();
+        $this->users[2] = $this->users[2]->fresh();
+        $this->users[3] = $this->users[3]->fresh();
+
+        $this->assertEquals(2, $this->users[0]->achievements->count());
+        $this->assertEquals(2, $this->users[1]->achievements->count());
+        $this->assertEquals(2, $this->users[2]->achievements->count());
+        $this->assertEquals(2, $this->users[3]->achievements->count());
+
+        $this->assertEquals(0, $this->users[0]->lockedAchievements()->count());
+        $this->assertEquals(1, $this->users[1]->lockedAchievements()->count());
+        $this->assertEquals(1, $this->users[2]->lockedAchievements()->count());
+        $this->assertEquals(2, $this->users[3]->lockedAchievements()->count());
 
         $this->assertEquals(2, $this->users[0]->unlockedAchievements()->count());
         $this->assertEquals(1, $this->users[1]->unlockedAchievements()->count());

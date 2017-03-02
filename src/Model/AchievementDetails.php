@@ -45,4 +45,21 @@ class AchievementDetails extends Model
     {
         return new $this->class_name();
     }
+
+    /**
+     * Gets all AchievementDetails that have no correspondence on the Progress table.
+     *
+     * @param mixed $achiever
+     */
+    public static function getUnsyncedByAchiever($achiever)
+    {
+        $achievements = AchievementProgress::where('achiever_type', get_class($achiever))
+                                           ->where('achiever_id', $achiever->id)->get();
+        $synced_ids = $achievements->map(function ($el) {
+            return $el->achievement_id;
+        })->toArray();
+
+        return self::whereNotIn('id', $synced_ids);
+    }
+
 }

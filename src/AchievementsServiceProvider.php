@@ -21,6 +21,10 @@ class AchievementsServiceProvider extends ServiceProvider
         $this->app['Gstt\Achievements\Achievement'] = function ($app) {
             return $app['gstt.achievements.achievement'];
         };
+        $this->publishes([
+            __DIR__.'/config/achievements.php' => config_path('achievements.php'),
+        ]);
+        $this->mergeConfigFrom(__DIR__.'/config/achievements.php', 'achievements');
     }
 
     /**
