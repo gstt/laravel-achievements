@@ -1,4 +1,4 @@
-<h1 align="center">Laravel Achievements</h1>
+<center>![alt tag](http://i.imgur.com/lJVz2II.png)</center>
 
 <p align="center">
 <a href="https://travis-ci.org/gstt/laravel-achievements"><img src="https://travis-ci.org/gstt/laravel-achievements.svg" alt="Build Status"></a>
