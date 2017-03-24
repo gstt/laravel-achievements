@@ -1,4 +1,6 @@
-<center>![alt tag](http://i.imgur.com/lJVz2II.png)</center>
+<p align="center">
+    <img src="https://i.imgur.com/lJVz2II.png" alt="Laravel Achievements Logo">
+</p>
 
 <p align="center">
 <a href="https://travis-ci.org/gstt/laravel-achievements"><img src="https://travis-ci.org/gstt/laravel-achievements.svg" alt="Build Status"></a>
