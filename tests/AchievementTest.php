@@ -6,6 +6,7 @@ use Gstt\Achievements\Model\AchievementDetails;
 use Gstt\Tests\Model\User;
 use Gstt\Tests\Achievements\FirstPost;
 use Gstt\Tests\Achievements\TenPosts;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AchievementTest extends DBTestCase
 {
@@ -269,5 +270,43 @@ class AchievementTest extends DBTestCase
         $this->assertEquals(1, $this->users[1]->inProgressAchievements()->count());
         $this->assertEquals(0, $this->users[2]->inProgressAchievements()->count());
         $this->assertEquals(1, $this->users[3]->inProgressAchievements()->count());
+    }
+
+    public function testUnlockedWithMorphMap()
+    {
+        Relation::morphMap([
+            'user' => User::class
+        ]);
+
+        $user = $this->users[0];
+        $user->unlock($this->tenPosts);
+
+        $user = $user->fresh();
+
+        $unlocked = AchievementDetails::getUnsyncedByAchiever($user)->get();
+        $this->assertEquals(1, $unlocked->count());
+    }
+
+    public function testAchieverMorphMap()
+    {
+        Relation::morphMap([
+            'user' => User::class
+        ]);
+
+        $user = $this->users[0];
+
+        $user->unlock($this->onePost);
+
+        $user = $user->fresh();
+        $onePostModel  = $this->onePost->getModel();
+
+        $onePostFirstUnlocked = $onePostModel->unlocks()->first();
+
+        $this->assertEquals($onePostFirstUnlocked->achiever_id, $user->id);
+        $this->assertEquals($onePostFirstUnlocked->achiever_type, 'user');
+
+        $progress = $this->onePost->getOrCreateProgressForAchiever($user);
+
+        $this->assertEquals($onePostFirstUnlocked->id, $progress->id);
     }
 }
