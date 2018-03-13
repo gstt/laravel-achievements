@@ -53,13 +53,31 @@ class AchievementDetails extends Model
      */
     public static function getUnsyncedByAchiever($achiever)
     {
-        $achievements = AchievementProgress::where('achiever_type', get_class($achiever))
+        $className = $this->getAchieverClassName($achiever);
+        
+        $achievements = AchievementProgress::where('achiever_type', $className)
                                            ->where('achiever_id', $achiever->id)->get();
+
         $synced_ids = $achievements->map(function ($el) {
             return $el->achievement_id;
         })->toArray();
 
         return self::whereNotIn('id', $synced_ids);
+    }
+
+    /**
+     * Gets model morph name or class name
+     *
+     * @param \Illuminate\Database\Eloquent\Model $achiever
+     * @return string
+     */
+    protected function getAchieverClassName($achiever)
+    {
+        if ($achiever instanceof \Illuminate\Database\Eloquent\Model) {
+            return $achiever->getMorphClass();
+        }
+
+        return get_class($achiever);
     }
 
 }
