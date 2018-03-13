@@ -125,7 +125,7 @@ abstract class Achievement
 
     /**
      * Gets the achiever's progress data for this achievement, or creates a new one if not existant
-     * @param mixed|null $achiever
+     * @param \Illuminate\Database\Eloquent\Model $achiever
      *
      * @return AchievementProgress
      */
