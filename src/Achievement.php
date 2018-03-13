@@ -131,7 +131,12 @@ abstract class Achievement
      */
     public function getOrCreateProgressForAchiever($achiever)
     {
-        $className = get_class($achiever);
+        if ($achiever instanceof \Illuminate\Database\Eloquent\Model) {
+            $className = $achiever->getMorphClass();
+        } else {
+            $className = get_class($achiever);
+        }
+
         $achievementId = $this->getModel()->id;
         $progress = AchievementProgress::where('achiever_type', $className)
                                        ->where('achievement_id', $achievementId)
