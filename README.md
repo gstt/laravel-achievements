@@ -10,6 +10,9 @@
 
 An implementation of an Achievement System in Laravel, inspired by Laravel's Notification system. 
 
+## Sample Application Using Laravel Achievements
+[Laravel-Achievements-Example](https://github.com/gabriel-simonetti/laravel-achievements-example)
+
 ## Table of Contents
 1. [Requirements](#requirements)
 2. [Installation](#installation)
@@ -242,6 +245,76 @@ class UserMade50Posts extends Achievement
     }
 }
 ```
+
+## SWAL Event Exapmle
+Step 1: Implement a Listener
+You need a listener in order to receive an alert whenever an Achievement is unlocked. Create a file called "AchievementUnlocked" under the folder "app\Listeners":
+
+```
+<?php
+
+namespace App\Listeners;
+
+use Session;
+use Gstt\Achievements\Model\AchievementProgress;
+use Gstt\Achievements\Event\Unlocked;
+
+class AchievementUnlocked
+{
+    /**
+     * Create the event listener.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  OrderShipped  $event
+     * @return void
+     */
+    public function handle(Unlocked $event)
+    {
+        // There's an AchievementProgress instance located on $event->progress
+        Session::flash('achievement', $event->progress->details->name);
+    }
+}
+```
+
+This listener triggers the handle() method whenever an Achievement is unlocked, and this method will add the Achievement name to a Session variable called 'achievement'.
+
+Step 2: Register the Listener
+On your EventServiceProvider, you must register the Listener you just created to the Event. You can do that appending this to the $listen mapper:
+
+```
+protected $listen = [
+    'Gstt\Achievements\Event\Unlocked' => [
+        'App\Listeners\AchievementUnlocked',
+    ],
+];
+```
+
+This will tell your Laravel app that, whenever the Gstt\Achievements\Event\Unlocked is triggered, the App\Listeners\AchievementUnlocked listener must be called.
+
+Step 3: Displaying the Achievement on HTML
+Now you just to display this on the HTML. Add this to the layout.blade.php file you're using for logged in users:
+
+```
+@if(Session::has('achievement'))
+<script type="text/javascript">
+    swal({
+        title: 'Awesome !',
+        text: 'You Unlocked "{{Session::get('achievement')}}" Achievment',
+        type: 'success'
+    });
+</script>
+@endif
+```
+
 ## <a name="license"></a> License 
 
 Laravel Achievements is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
