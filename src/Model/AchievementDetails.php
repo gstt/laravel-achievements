@@ -78,5 +78,4 @@ class AchievementDetails extends Model
 
         return get_class($achiever);
     }
-
 }

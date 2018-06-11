@@ -45,5 +45,4 @@ class DBTestCase extends TestCase
         User::create(['name' => 'Gamer3', 'email' => 'gamer3@email.com', 'password' => '111111']);
         User::create(['name' => 'Gamer4', 'email' => 'gamer4@email.com', 'password' => '111111']);
     }
-
 }
