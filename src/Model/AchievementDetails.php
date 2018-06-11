@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AchievementDetails extends Model
 {
-
-    public $secret = false;
     /**
      * Return all users that have made progress on this achievement.
      *
@@ -39,14 +37,6 @@ class AchievementDetails extends Model
     }
 
     /**
-     * Returns the class that defined this achievement.
-     */
-    public function getClass()
-    {
-        return new $this->class_name();
-    }
-
-    /**
      * Gets all AchievementDetails that have no correspondence on the Progress table.
      *
      * @param \Illuminate\Database\Eloquent\Model $achiever
@@ -63,20 +53,4 @@ class AchievementDetails extends Model
 
         return self::whereNotIn('id', $synced_ids);
     }
-
-    /**
-     * Gets model morph name
-     *
-     * @param \Illuminate\Database\Eloquent\Model $achiever
-     * @return string
-     */
-    protected function getAchieverClassName($achiever)
-    {
-        if ($achiever instanceof \Illuminate\Database\Eloquent\Model) {
-            return $achiever->getMorphClass();
-        }
-
-        return get_class($achiever);
-    }
-
 }

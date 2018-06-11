@@ -13,9 +13,9 @@ trait RoutesAchievements
      *
      * @return void
      */
-    public function addProgress($instance, $points)
+    public function addProgress($instance, $points,$type)
     {
-        $instance->addProgressToAchiever($this, $points);
+        $instance->addProgressToAchiever($this, $points,$type);
     }
 
     /**
