@@ -34,7 +34,7 @@ abstract class Achievement
     public $points = 1;
 
     /*
-     * Whether this is a secret achievment or not.
+     * Whether this is a secret achievement or not.
      */
     public $secret = false;
 
@@ -45,6 +45,14 @@ abstract class Achievement
     public function __construct()
     {
         $this->getModel();
+    }
+
+    /**
+     * Wrapper for AchievementDetail::all();
+     * Conveniently fetches all achievements stored in the database.
+     */
+    public static function all(){
+        return AchievementDetails::all();
     }
 
     /**

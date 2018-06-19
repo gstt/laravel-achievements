@@ -2,6 +2,7 @@
 
 namespace Gstt\Tests;
 
+use Gstt\Achievements\Achievement;
 use Gstt\Achievements\Model\AchievementDetails;
 use Gstt\Tests\Model\User;
 use Gstt\Tests\Achievements\FirstPost;
@@ -53,6 +54,9 @@ class AchievementTest extends DBTestCase
      * Tests the setup
      */
     public function testSetup(){
+
+        // Tests whether the Achievements:all() shortcut is working
+        $this->assertEquals(2, Achievement::all()->count());
 
         // For users, check only names.
         // Achiever classes don't matter much. They just need to exist and have IDs.
