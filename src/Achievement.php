@@ -8,7 +8,7 @@ use Gstt\Achievements\Model\AchievementDetails;
 use Gstt\Achievements\Model\AchievementProgress;
 use Illuminate\Database\Eloquent\Builder;
 
-abstract class Achievement
+class Achievement
 {
 
     /**
@@ -42,9 +42,9 @@ abstract class Achievement
      * Achievement constructor.
      * Should add the achievement to the database.
      */
-    public function __construct()
+    public function __construct($type)
     {
-        $this->getModel();
+        $this->getModel($type);
     }
 
     /**
@@ -80,22 +80,12 @@ abstract class Achievement
      *
      * @return AchievementDetails
      */
-    public function getModel()
+    public function getModel($type)
     {
-        $model = AchievementDetails::where('class_name', $this->getClassName())->first();
+        $model = AchievementDetails::where('type', $type)->first();
         if (is_null($model)) {
-            $model = new AchievementDetails();
-            $model->class_name = $this->getClassName();
+            return 0;
         }
-
-        // Updates the model with data from the achievement class
-        $model->name        = $this->name;
-        $model->description = $this->description;
-        $model->points      = $this->points;
-        $model->secret      = $this->secret;
-
-        // Saves
-        $model->save();
 
         return $model;
     }
@@ -106,11 +96,12 @@ abstract class Achievement
      * @param mixed $achiever The entity that will add progress to this achievement
      * @param int   $points   The amount of points to be added to this achievement
      */
-    public function addProgressToAchiever($achiever, $points = 1)
+    public function addProgressToAchiever($achiever, $points = 1,$type)
     {
-        $progress = $this->getOrCreateProgressForAchiever($achiever);
+        $progress = $this->getOrCreateProgressForAchiever($achiever,$type);
         if (!$progress->isUnlocked()) {
             $progress->points = $progress->points + $points;
+            $progress->type = $type;
             $progress->save();
         }
     }
@@ -121,12 +112,13 @@ abstract class Achievement
      * @param mixed $achiever The entity that will add progress to this achievement
      * @param int   $points   The amount of points to be added to this achievement
      */
-    public function setProgressToAchiever($achiever, $points)
+    public function setProgressToAchiever($achiever, $points,$type)
     {
-        $progress = $this->getOrCreateProgressForAchiever($achiever);
+        $progress = $this->getOrCreateProgressForAchiever($achiever,$type);
 
         if (!$progress->isUnlocked()) {
             $progress->points = $points;
+            $progress->type = $type;
             $progress->save();
         }
     }
@@ -137,11 +129,11 @@ abstract class Achievement
      *
      * @return AchievementProgress
      */
-    public function getOrCreateProgressForAchiever($achiever)
+    public function getOrCreateProgressForAchiever($achiever,$type)
     {
         $className = $this->getAchieverClassName($achiever);
 
-        $achievementId = $this->getModel()->id;
+        $achievementId = $this->getModel($type)->id;
         $progress = AchievementProgress::where('achiever_type', $className)
                                        ->where('achievement_id', $achievementId)
                                        ->where('achiever_id', $achiever->id)
@@ -149,9 +141,9 @@ abstract class Achievement
 
         if (is_null($progress)) {
             $progress = new AchievementProgress();
-            $progress->details()->associate($this->getModel());
+            $progress->details()->associate($this->getModel($type));
             $progress->achiever()->associate($achiever);
-
+            $progress->type = $type;
             $progress->save();
         }
 

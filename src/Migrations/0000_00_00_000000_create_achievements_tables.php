@@ -19,7 +19,7 @@ class CreateAchievementsTables extends Migration
             $table->string('description');
             $table->unsignedInteger('points')->default(1);
             $table->boolean('secret')->default(false);
-            $table->string('class_name');
+            $table->string('type');
             $table->timestamps();
         });
         Schema::create('achievement_progress', function (Blueprint $table) {
