@@ -53,7 +53,8 @@ class AchievementTest extends DBTestCase
     /**
      * Tests the setup
      */
-    public function testSetup(){
+    public function testSetup()
+    {
 
         // Tests whether the Achievements:all() shortcut is working
         $this->assertEquals(2, Achievement::all()->count());
@@ -76,16 +77,16 @@ class AchievementTest extends DBTestCase
         // Compare Model data with class data for OnePost
         $this->assertNotNull($onePostDB);
 
-        $this->assertEquals($onePostDB->name        , $this->onePost->name);
-        $this->assertEquals($onePostDB->description , $this->onePost->description);
-        $this->assertEquals($onePostDB->points      , $this->onePost->points);
+        $this->assertEquals($onePostDB->name, $this->onePost->name);
+        $this->assertEquals($onePostDB->description, $this->onePost->description);
+        $this->assertEquals($onePostDB->points, $this->onePost->points);
 
         // Compare Model data with class data for TenPosts
         $this->assertNotNull($tenPostsDB);
 
-        $this->assertEquals($tenPostsDB->name        , $this->tenPosts->name);
-        $this->assertEquals($tenPostsDB->description , $this->tenPosts->description);
-        $this->assertEquals($tenPostsDB->points      , $this->tenPosts->points);
+        $this->assertEquals($tenPostsDB->name, $this->tenPosts->name);
+        $this->assertEquals($tenPostsDB->description, $this->tenPosts->description);
+        $this->assertEquals($tenPostsDB->points, $this->tenPosts->points);
 
         // Compares conversion between class instance and class data
         $this->assertEquals($onePostDB->getClass()->getClassName(), $this->onePost->getClassName());
@@ -95,7 +96,8 @@ class AchievementTest extends DBTestCase
     /**
      * Tests unlocking achievements.
      */
-    public function testUnlock(){
+    public function testUnlock()
+    {
 
         // First user: unlocks both achievements.
         $this->users[0]->unlock($this->onePost);
@@ -140,7 +142,8 @@ class AchievementTest extends DBTestCase
     /**
      * Test adding/removing/progressing on achievements.
      */
-    public function testProgress(){
+    public function testProgress()
+    {
         $this->users[1]->addProgress($this->tenPosts, 10);
         $this->users[3]->addProgress($this->tenPosts, 9);
         $this->users[4]->addProgress($this->tenPosts, 3);
