@@ -8,7 +8,7 @@ use Gstt\Achievements\Model\AchievementDetails;
 use Gstt\Achievements\Model\AchievementProgress;
 use Illuminate\Database\Eloquent\Builder;
 
-abstract class Achievement
+abstract class Achievement implements CanAchieve
 {
 
     /**
