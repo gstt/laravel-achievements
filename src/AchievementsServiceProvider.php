@@ -3,6 +3,7 @@
 namespace Gstt\Achievements;
 
 use Gstt\Achievements\Console\AchievementMakeCommand;
+use Gstt\Achievements\Console\AchievementChainMakeCommand;
 use Illuminate\Support\ServiceProvider;
 
 class AchievementsServiceProvider extends ServiceProvider
@@ -14,17 +15,17 @@ class AchievementsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__.'/Migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/Migrations');
         if ($this->app->runningInConsole()) {
-            $this->commands([AchievementMakeCommand::class]);
+            $this->commands([AchievementMakeCommand::class, AchievementChainMakeCommand::class]);
         }
         $this->app['Gstt\Achievements\Achievement'] = function ($app) {
             return $app['gstt.achievements.achievement'];
         };
         $this->publishes([
-            __DIR__.'/config/achievements.php' => config_path('achievements.php'),
+            __DIR__ . '/config/achievements.php' => config_path('achievements.php'),
         ]);
-        $this->mergeConfigFrom(__DIR__.'/config/achievements.php', 'achievements');
+        $this->mergeConfigFrom(__DIR__ . '/config/achievements.php', 'achievements');
     }
 
     /**
