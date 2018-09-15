@@ -3,9 +3,20 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Config;
 
 class CreateAchievementsTables extends Migration
 {
+    public $achievement_details;
+    public $achievement_progress;
+
+    public function __construct()
+    {
+
+        $this->achievement_details = Config::get('achievements.table_names.details');
+        $this->achievement_progress = Config::get('achievements.table_names.progress');
+    }
+
     /**
      * Run the migrations.
      *
@@ -13,7 +24,7 @@ class CreateAchievementsTables extends Migration
      */
     public function up()
     {
-        Schema::create('achievement_details', function (Blueprint $table) {
+        Schema::create($this->achievement_details, function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('description');
@@ -22,7 +33,7 @@ class CreateAchievementsTables extends Migration
             $table->string('class_name');
             $table->timestamps();
         });
-        Schema::create('achievement_progress', function (Blueprint $table) {
+        Schema::create($this->achievement_progress, function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->unsignedInteger('achievement_id');
             $table->morphs('achiever');

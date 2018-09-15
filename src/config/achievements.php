@@ -2,6 +2,30 @@
 return [
     /*
     |--------------------------------------------------------------------------
+    | Table naming
+    |--------------------------------------------------------------------------
+    |
+    | Allows changing the default names for the Achievement tables.
+    |
+    | By default, there are two tables that store achievement data:
+    |
+    | * achievement_details stores details related to the achievement itself:
+    |   -> name, description, amount of points to unlock.
+    | * achievement_progress stores details related to a specific unlock or progress.
+        -> it contains ids for the achiever and achievement, as well as the amount
+           of points obtained and when the achievement was unlocked.
+    |
+    | This setting allows changing the default names of these tables.
+    | Please note that changing this before migrating will also change preemptively
+    | the name of the created tables on the database.
+    */
+    'table_names' => [
+        'details' => 'achievement_details',
+        'progress' => 'achievement_progress'
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Locked achievement sync
     |--------------------------------------------------------------------------
     |
@@ -25,5 +49,5 @@ return [
     | query from achievements().
     |
     */
-    'locked_sync' => true
+    'locked_sync' => true,
 ];

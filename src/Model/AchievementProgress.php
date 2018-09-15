@@ -5,6 +5,7 @@ namespace Gstt\Achievements\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Model for the table that will store the data regarding achievement progress and unlocks.
@@ -30,6 +31,12 @@ class AchievementProgress extends Model
      * @var string
      */
     protected $table = 'achievement_progress';
+
+    public function __construct(array $attributes = [])
+    {
+        $this->table = Config::get('achievements.table_names.progress');
+        parent::__construct($attributes);
+    }
 
     /**
      * The guarded attributes on the model.

@@ -4,6 +4,7 @@ namespace Gstt\Achievements\Model;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Model for the table that will store the details for an Achievement Progress.
@@ -16,8 +17,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AchievementDetails extends Model
 {
-
     public $secret = false;
+    protected $table = 'achievement_details';
+
+    public function __construct(array $attributes = [])
+    {
+        $this->table = Config::get('achievements.table_names.details');
+        parent::__construct($attributes);
+    }
+
     /**
      * Return all users that have made progress on this achievement.
      *
