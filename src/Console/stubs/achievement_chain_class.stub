@@ -1,0 +1,16 @@
+<?php
+
+namespace DummyNamespace;
+
+use Gstt\Achievements\Achievement;
+
+class DummyClass extends AchievementChain
+{
+    /*
+     * Returns a list of instances of Achievements
+     */
+    public function chain()
+    {
+        return [];
+    }
+}
