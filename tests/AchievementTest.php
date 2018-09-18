@@ -316,4 +316,15 @@ class AchievementTest extends DBTestCase
 
         $this->assertEquals($onePostFirstUnlocked->id, $progress->id);
     }
+
+    public function testAchievementProgressMapToDetails()
+    {
+        $this->users[0]->unlock($this->onePost);
+        $this->users[0]->unlock($this->tenPosts);
+
+        foreach($this->users[0]->unlockedAchievements() as $unlockedAchievement) {
+            $this->assertEquals($unlockedAchievement->name, $unlockedAchievement->details->name);
+            $this->assertEquals($unlockedAchievement->description, $unlockedAchievement->details->description);
+        }
+    }
 }

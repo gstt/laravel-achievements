@@ -131,4 +131,22 @@ class AchievementProgress extends Model
 
         return $result;
     }
+
+    /**
+     * Maps to Gstt\Achievements\Achievement::$name
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return $this->details->name;
+    }
+
+    /**
+     * Maps to Gstt\Achievements\Achievement::$description
+     * @return string
+     */
+    public function getDescriptionAttribute()
+    {
+        return $this->details->description;
+    }
 }
