@@ -50,4 +50,18 @@ return [
     |
     */
     'locked_sync' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Automatic achievement sync
+    |--------------------------------------------------------------------------
+    |
+    | Automatically syncs achievement data from source code to database tables.
+    |
+    | When set to true, all calls to Achievement classes will attempt to sync
+    | data from the source code to the AchievementDetails tables.
+    | This will keep your database in sync, but may also increase the amount
+    | of database calls.
+    */
+    'auto_sync' => false
 ];

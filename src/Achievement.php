@@ -38,6 +38,11 @@ abstract class Achievement implements CanAchieve
      */
     public $secret = false;
 
+    /*
+     * The model class for this achievement.
+     */
+    private $modelAttr = null;
+
     /**
      * Achievement constructor.
      * Should add the achievement to the database.
@@ -82,21 +87,28 @@ abstract class Achievement implements CanAchieve
      */
     public function getModel()
     {
+        if(!is_null($this->modelAttr)){
+            return $this->modelAttr;
+        }
+
         $model = AchievementDetails::where('class_name', $this->getClassName())->first();
+
         if (is_null($model)) {
             $model = new AchievementDetails();
             $model->class_name = $this->getClassName();
         }
 
-        // Updates the model with data from the achievement class
-        $model->name        = $this->name;
-        $model->description = $this->description;
-        $model->points      = $this->points;
-        $model->secret      = $this->secret;
+        if(config('achievements.auto_sync') || is_null($model->name)) {
+            $model->name = $this->name;
+            $model->description = $this->description;
+            $model->points = $this->points;
+            $model->secret = $this->secret;
 
-        // Saves
-        $model->save();
+            // Syncs
+            $model->save();
+        }
 
+        $this->modelAttr = $model;
         return $model;
     }
 
