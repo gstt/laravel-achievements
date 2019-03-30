@@ -35,6 +35,8 @@ class DBTestCase extends TestCase
 
         Artisan::call('migrate');
         $this->seedUsers();
+
+        return;
     }
 
     public function seedUsers()
