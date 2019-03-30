@@ -22,11 +22,11 @@ class DBTestCase extends TestCase
     }
 
     /**
-     * Setup DB before each test.
+     * Setup the test environment.
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -35,8 +35,6 @@ class DBTestCase extends TestCase
 
         Artisan::call('migrate');
         $this->seedUsers();
-
-        return;
     }
 
     public function seedUsers()
