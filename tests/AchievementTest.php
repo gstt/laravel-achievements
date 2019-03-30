@@ -15,7 +15,7 @@ class AchievementTest extends DBTestCase
     public $onePost;
     public $tenPosts;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
         $this->users[] = User::find(1);

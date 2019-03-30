@@ -16,7 +16,7 @@ class ChainAchievementTest extends DBTestCase
     public $tenPosts;
     public $fiftyPosts;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
         $this->users[] = User::find(1);
