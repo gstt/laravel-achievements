@@ -17,6 +17,13 @@
             "Gstt\\Tests\\": "tests/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gstt\\Achievements\\AchievementsServiceProvider"
+            ]
+        }
+    },
     "require": {
         "ramsey/uuid": "^3.5"
     },

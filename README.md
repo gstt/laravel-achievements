@@ -34,7 +34,8 @@ Default installation is via [Composer](https://getcomposer.org/).
 composer require gstt/laravel-achievements
 ```
 
-Add the Service Provider to your `config/app` file in the `providers` section.
+The service provider will automatically get registered. Or you could add the Service Provider manually to your 
+`config/app` file in the `providers` section.
 
 ```php
 'providers' => [
