@@ -18,10 +18,10 @@
         }
     },
     "require": {
-        "ramsey/uuid": "^3.5"
+        "ramsey/uuid": "^3.8"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8",
+        "phpunit/phpunit": "^7",
         "laravel/laravel": "^5.6"
     }
 }

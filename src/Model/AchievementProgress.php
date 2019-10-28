@@ -51,6 +51,8 @@ class AchievementProgress extends Model
      * @var array
      */
     protected $casts = [
+        'id' => 'string',
+        'achievement_id' => 'string',
         'unlocked_at' => 'datetime',
     ];
 

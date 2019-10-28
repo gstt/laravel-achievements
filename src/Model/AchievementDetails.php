@@ -5,6 +5,7 @@ namespace Gstt\Achievements\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Model for the table that will store the details for an Achievement Progress.
@@ -17,6 +18,13 @@ use Illuminate\Support\Facades\Config;
  */
 class AchievementDetails extends Model
 {
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+
+    protected $casts = [
+        'id' => 'string',
+    ];
+
     public $secret = false;
     protected $table = 'achievement_details';
 
@@ -85,5 +93,15 @@ class AchievementDetails extends Model
         }
 
         return get_class($achiever);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (self $model) {
+            $model->id = Uuid::uuid4()->toString();
+        });
+
     }
 }

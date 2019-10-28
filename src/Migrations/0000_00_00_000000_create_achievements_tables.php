@@ -25,7 +25,7 @@ class CreateAchievementsTables extends Migration
     public function up()
     {
         Schema::create($this->achievement_details, function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('description');
             $table->unsignedInteger('points')->default(1);
@@ -35,7 +35,7 @@ class CreateAchievementsTables extends Migration
         });
         Schema::create($this->achievement_progress, function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->unsignedInteger('achievement_id');
+            $table->uuid('achievement_id')->index();
             $table->morphs('achiever');
             $table->unsignedInteger('points')->default(0);
             $table->timestamp('unlocked_at')->nullable()->default(null);
