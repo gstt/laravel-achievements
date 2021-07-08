@@ -41,7 +41,7 @@ class CreateAchievementsTables extends Migration
             $table->timestamp('unlocked_at')->nullable()->default(null);
             $table->timestamps();
 
-            $table->foreign('achievement_id')->references('id')->on('achievement_details');
+            $table->foreign('achievement_id')->references('id')->on($this->achievement_details);
         });
     }
 
