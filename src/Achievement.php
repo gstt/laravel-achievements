@@ -28,6 +28,11 @@ abstract class Achievement implements CanAchieve
      */
     public $description = "";
 
+    /*
+     * Image url for the achievement
+     */
+    public $url = "";
+
     /**
      * The amount of points required to unlock this achievement.
      */
@@ -56,7 +61,8 @@ abstract class Achievement implements CanAchieve
      * Wrapper for AchievementDetail::all();
      * Conveniently fetches all achievements stored in the database.
      */
-    public static function all(){
+    public static function all()
+    {
         return AchievementDetails::all();
     }
 
@@ -87,7 +93,7 @@ abstract class Achievement implements CanAchieve
      */
     public function getModel()
     {
-        if(!is_null($this->modelAttr)){
+        if (!is_null($this->modelAttr)) {
             return $this->modelAttr;
         }
 
@@ -98,9 +104,10 @@ abstract class Achievement implements CanAchieve
             $model->class_name = $this->getClassName();
         }
 
-        if(config('achievements.auto_sync') || is_null($model->name)) {
+        if (config('achievements.auto_sync') || is_null($model->name)) {
             $model->name = $this->name;
             $model->description = $this->description;
+            $model->url = $this->url;
             $model->points = $this->points;
             $model->secret = $this->secret;
 
@@ -155,9 +162,9 @@ abstract class Achievement implements CanAchieve
 
         $achievementId = $this->getModel()->id;
         $progress = AchievementProgress::where('achiever_type', $className)
-                                       ->where('achievement_id', $achievementId)
-                                       ->where('achiever_id', $achiever->id)
-                                       ->first();
+            ->where('achievement_id', $achievementId)
+            ->where('achiever_id', $achiever->id)
+            ->first();
 
         if (is_null($progress)) {
             $progress = new AchievementProgress();
@@ -191,8 +198,7 @@ abstract class Achievement implements CanAchieve
      * @param $progress
      */
     public function whenUnlocked($progress)
-    {
-    }
+    { }
 
     /**
      * Will be called when progress is made on the achievement.
@@ -200,8 +206,7 @@ abstract class Achievement implements CanAchieve
      * @param $progress
      */
     public function whenProgress($progress)
-    {
-    }
+    { }
 
     /**
      * Triggers the AchievementUnlocked Event.

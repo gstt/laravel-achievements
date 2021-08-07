@@ -28,6 +28,7 @@ class CreateAchievementsTables extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
+            $table->string('url');
             $table->unsignedInteger('points')->default(1);
             $table->boolean('secret')->default(false);
             $table->string('class_name');
