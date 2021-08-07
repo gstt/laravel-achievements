@@ -156,7 +156,7 @@ abstract class Achievement implements CanAchieve
         $achievementId = $this->getModel()->id;
         $progress = AchievementProgress::where('achiever_type', $className)
                                        ->where('achievement_id', $achievementId)
-                                       ->where('achiever_id', $achiever->id)
+                                       ->where('achiever_id', $achiever->getKey())
                                        ->first();
 
         if (is_null($progress)) {
