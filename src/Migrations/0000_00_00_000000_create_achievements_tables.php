@@ -52,7 +52,7 @@ class CreateAchievementsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('achievement_progress');
-        Schema::dropIfExists('achievement_details');
+        Schema::dropIfExists($this->achievement_progress);
+        Schema::dropIfExists($this->achievement_details);
     }
 }
